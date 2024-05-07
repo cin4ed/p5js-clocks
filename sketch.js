@@ -26,8 +26,28 @@ function loadRelojes() {
   let [h, m, s] = horaPaz.value().split(":").map(Number);
   console.log(h, m, s);
   relojes.push(new Reloj(90, 200, h, m, s, PUNTO_PENDIENTE, "La Paz"));
-  relojes.push(new Reloj(200, 200, h + diferenciaHorariaCiudadMexico, m, s, DDA, "Ciudad de México"));
-  relojes.push(new Reloj(310, 200, h + diferenciaHorariaBarcelona, m, s, BRESENHAM, "Barcelona"));
+  relojes.push(
+    new Reloj(
+      200,
+      200,
+      h + diferenciaHorariaCiudadMexico,
+      m,
+      s,
+      DDA,
+      "Ciudad de México"
+    )
+  );
+  relojes.push(
+    new Reloj(
+      310,
+      200,
+      h + diferenciaHorariaBarcelona,
+      m,
+      s,
+      BRESENHAM,
+      "Barcelona"
+    )
+  );
 }
 
 function draw() {
@@ -47,79 +67,79 @@ class Reloj {
     this.minuto = minuto;
     this.segundo = segundo;
     this.algoritmo = algoritmo;
-    this.nombre = nombre
+    this.nombre = nombre;
   }
 
   dibujar() {
     push();
-  translate(this.x, this.y);
+    translate(this.x, this.y);
 
-  // Dibuja la esfera del reloj
-  this.drawCircle(0, 0, 50);
+    // Dibuja la esfera del reloj
+    this.drawCircle(0, 0, 50);
 
-  // Dibuja las manecillas utilizando el algoritmo especificado
-  switch (this.algoritmo) {
-    case PUNTO_PENDIENTE:
-      push();
-      rotate(map((this.hora %= 12), 0, 12, 0, TWO_PI) - HALF_PI);
-      this.drawLinePP(0, 0, 20, 0);
-      pop();
+    // Dibuja las manecillas utilizando el algoritmo especificado
+    switch (this.algoritmo) {
+      case PUNTO_PENDIENTE:
+        push();
+        rotate(map((this.hora %= 12), 0, 12, 0, TWO_PI) - HALF_PI);
+        this.drawLinePP(0, 0, 20, 0);
+        pop();
 
-      push();
-      rotate(map(this.minuto, 0, 60, 0, TWO_PI) - HALF_PI);
-      this.drawLinePP(0, 0, 30, 0);
-      pop();
+        push();
+        rotate(map(this.minuto, 0, 60, 0, TWO_PI) - HALF_PI);
+        this.drawLinePP(0, 0, 30, 0);
+        pop();
 
-      push();
-      stroke('red'); // Set the stroke color to red
-      rotate(map(this.segundo, 0, 60, 0, TWO_PI) - HALF_PI);
-      this.drawLinePP(0, 0, 40, 0);
-      stroke('black'); // Reset the stroke color to black
-      pop()
-      break;
-    case DDA:
-      push();
-      rotate(map((this.hora %= 12), 0, 12, 0, TWO_PI) - HALF_PI);
-      this.drawLineDDA(0, 0, 20, 0);
-      pop();
+        push();
+        stroke("red"); // Set the stroke color to red
+        rotate(map(this.segundo, 0, 60, 0, TWO_PI) - HALF_PI);
+        this.drawLinePP(0, 0, 40, 0);
+        stroke("black"); // Reset the stroke color to black
+        pop();
+        break;
+      case DDA:
+        push();
+        rotate(map((this.hora %= 12), 0, 12, 0, TWO_PI) - HALF_PI);
+        this.drawLineDDA(0, 0, 20, 0);
+        pop();
 
-      push();
-      rotate(map(this.minuto, 0, 60, 0, TWO_PI) - HALF_PI);
-      this.drawLineDDA(0, 0, 30, 0);
-      pop();
+        push();
+        rotate(map(this.minuto, 0, 60, 0, TWO_PI) - HALF_PI);
+        this.drawLineDDA(0, 0, 30, 0);
+        pop();
 
-      push();
-      stroke('red'); // Set the stroke color to red
-      rotate(map(this.segundo, 0, 60, 0, TWO_PI) - HALF_PI);
-      this.drawLineDDA(0, 0, 40, 0);
-      stroke('black'); // Reset the stroke color to black
-      pop()
-      break;
-    case BRESENHAM:
-      push();
-      rotate(map((this.hora %= 12), 0, 12, 0, TWO_PI) - HALF_PI);
-      this.drawLineBresenham(0, 0, 20, 0);
-      pop();
+        push();
+        stroke("red"); // Set the stroke color to red
+        rotate(map(this.segundo, 0, 60, 0, TWO_PI) - HALF_PI);
+        this.drawLineDDA(0, 0, 40, 0);
+        stroke("black"); // Reset the stroke color to black
+        pop();
+        break;
+      case BRESENHAM:
+        push();
+        rotate(map((this.hora %= 12), 0, 12, 0, TWO_PI) - HALF_PI);
+        this.drawLineBresenham(0, 0, 20, 0);
+        pop();
 
-      push();
-      rotate(map(this.minuto, 0, 60, 0, TWO_PI) - HALF_PI);
-      this.drawLineBresenham(0, 0, 30, 0);
-      pop();
+        push();
+        rotate(map(this.minuto, 0, 60, 0, TWO_PI) - HALF_PI);
+        this.drawLineBresenham(0, 0, 30, 0);
+        pop();
 
-      push();
-      stroke('red'); // Set the stroke color to red
-      rotate(map(this.segundo, 0, 60, 0, TWO_PI) - HALF_PI);
-      this.drawLineBresenham(0, 0, 40, 0);
-      stroke('black'); // Reset the stroke color to black
-      pop()
-      break;
-  }
+        push();
+        stroke("red"); // Set the stroke color to red
+        rotate(map(this.segundo, 0, 60, 0, TWO_PI) - HALF_PI);
+        this.drawLineBresenham(0, 0, 40, 0);
+        stroke("black"); // Reset the stroke color to black
+        pop();
+        break;
+    }
 
-  // Draw the name of the clock below it
-  textAlign(CENTER, CENTER);
-  text(this.nombre, 0, 60);
+    // Draw the name of the clock below it
+    textAlign(CENTER, CENTER);
+    text(this.nombre, 0, 60);
 
-  pop();
+    pop();
   }
 
   actualizarTiempo() {
@@ -165,18 +185,11 @@ class Reloj {
   drawLinePP(x1, y1, x2, y2) {
     const dx = x2 - x1;
     const dy = y2 - y1;
-    const steps = Math.max(Math.abs(dx), Math.abs(dy));
+    const m = dy / dx;
 
-    const xIncrement = dx / steps;
-    const yIncrement = dy / steps;
-
-    let x = x1;
-    let y = y1;
-
-    for (let i = 0; i <= steps; i++) {
+    for (let x = x1; x <= x2; x++) {
+      const y = m * (x - x1) + y1;
       point(Math.round(x), Math.round(y));
-      x += xIncrement;
-      y += yIncrement;
     }
   }
 
